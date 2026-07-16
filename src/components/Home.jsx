@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { addToPastes, updateToPastes } from '../redux/pasteSlice'
 import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
+import { toast } from 'react-toastify'
 
 const Home = () => {
     const [title, setTitle] = useState('')
@@ -45,6 +46,10 @@ const Home = () => {
             dispatch(updateToPastes(pasteData))
         } else {
             // Create new paste
+            if (!title || !value) {
+                toast("Please set title and content");
+                return;
+            }
             dispatch(addToPastes(pasteData))
         }
             // after creating reset all inpput ui
