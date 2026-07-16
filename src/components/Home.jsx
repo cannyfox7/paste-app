@@ -14,16 +14,20 @@ const Home = () => {
     const dispatch = useDispatch()
     const allPastes = useSelector((state) => state.paste.pastes)
 
-    useEffect(() => {
-        if (pasteId) {
-            const paste = allPastes.find((p) => p._id === pasteId)
+   useEffect(() => {
+    if (!pasteId) {
+        setTitle('');
+        setValue('');
+        return;
+    }
 
-            if (paste) {
-                setTitle(paste.title || '')
-                setValue(paste.content || '')
-            }
-        }
-    }, [pasteId, allPastes])
+    const paste = allPastes.find((p) => p._id === pasteId);
+
+    if (paste) {
+        setTitle(paste.title);
+        setValue(paste.content);
+    }
+}, [pasteId]);
 
     function createPaste() {
         const selectedPaste = allPastes.find((p) => p._id === pasteId)
