@@ -33,6 +33,24 @@ const Home = () => {
     function createPaste() {
         const selectedPaste = allPastes.find((p) => p._id === pasteId)
 
+         if (!title || !value) {
+                toast.error("title and content cannot be empty");
+                return;
+            }
+
+            if (!pasteId) {
+        const alreadyExists = allPastes.some(
+            (paste) =>
+                paste.title.trim().toLowerCase() ===
+                title.trim().toLowerCase()
+        );
+
+        if (alreadyExists) {
+            toast.error("A paste with this title already exists");
+            return;
+        }
+    }
+
         const pasteData = {
             title: title,
             content: value,
@@ -46,10 +64,7 @@ const Home = () => {
             dispatch(updateToPastes(pasteData))
         } else {
             // Create new paste
-            if (!title || !value) {
-                toast("Please set title and content");
-                return;
-            }
+           
             dispatch(addToPastes(pasteData))
         }
             // after creating reset all inpput ui
